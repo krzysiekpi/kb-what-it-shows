@@ -2,14 +2,15 @@
 import notes from '#lib/data/desk-notes.json';
 import { causeOf, uniqueById, type Report, type Tenant } from '#lib/kb/causes';
 
-// `daymove`: the desk read these as a day off by one, not a month/day flip (desk-notes.json).
-// It is a third problem. causes.ts files these under `parser` by tenant, so CauseTable counts them there.
-export type Problem = 'parser' | 'hint' | 'daymove' | 'unplaced';
+// The desk counts a report where its tenant files it (causes.ts). Reports the desk read as a day off by
+// one (desk-notes.json) stay under their cause and are footnoted there, not counted as a problem of their own.
+export type Problem = 'parser' | 'hint' | 'unplaced';
 
 export function problemOf(r: Report, t: Tenant | undefined): Problem {
-  if (notes.oneDayMove.includes(r.id)) return 'daymove';
   return causeOf(r, t) ?? 'unplaced';
 }
+
+export const readAsDayMove = (reports: Report[]): number => reports.filter((r) => notes.oneDayMove.includes(r.id)).length;
 
 export type ProblemGroup = {
   problem: Problem;
@@ -17,6 +18,7 @@ export type ProblemGroup = {
   tenants: string[];
   firstSeen: string;
   lastSeen: string;
+  dayMove: number;
 };
 
 export type Split = { rows: number; repeats: number; unique: number; groups: ProblemGroup[] };
@@ -38,6 +40,7 @@ export function splitTicket(all: Report[], ticket: number, tenantOf: (r: Report)
         tenants: [...new Set(reports.map((r) => r.tenant))].sort(),
         firstSeen: days[0],
         lastSeen: days[days.length - 1],
+        dayMove: readAsDayMove(reports),
       };
     })
     .sort((a, b) => b.reports.length - a.reports.length);

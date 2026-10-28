@@ -35,7 +35,14 @@
   </tbody>
 </table>
 
+{#each split.groups as g (g.problem)}
+  {#if g.dayMove}
+    <p class="note">{g.dayMove} reports read as a one-day move; counted under <code>{g.problem}</code> by tenant.</p>
+  {/if}
+{/each}
+
 <style>
   .sum { font-size: 1.1rem; }
+  .note { color: var(--muted); font-size: 0.85em; }
   .rows { color: var(--muted); font-size: 0.85em; }
 </style>

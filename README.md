@@ -37,6 +37,6 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 
 ## S01E03 deliverable
 
-- Tickets: the three [issues](https://github.com/krzysiekpi/kb-what-it-shows/issues), one per problem in #4471.
+- Tickets: the two open [issues](https://github.com/krzysiekpi/kb-what-it-shows/issues), one per problem in #4471.
 - Page source: `src/routes/kb/incidents/4471-split/+page.svx` (counts come from `src/lib/kb/split.ts`).
 - Page as the desk sees it: `site/kb/incidents/4471-split.html`.
