@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · two problems, not one'
 owner: krzysiekpi
-status: open
+status: closed
 reviewed: 2026-10-28
 signature: 'v1.eyJzdWIiOiIxNzk4IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMxNjU5OTcsImV4cCI6MTc5MzI1MjM5N30.LZu4y0pdWCNVXXYC3DqH1Lw7CD5fbkq4dotlWhknZBc'
 ---
@@ -16,11 +16,12 @@ signature: 'v1.eyJzdWIiOiIxNzk4IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpY
   const issues = { parser: `${base}/1`, hint: `${base}/2` };
 </script>
 
-[#4471](/kb/incidents/4471) is marked known, with one fix queued. The reports in it do not share one
-cause. Counted from the exported reports, they fall into two problems. The queued fix covers one.
+[#4471](/kb/incidents/4471) was marked known as one issue. The reports in it did not share one cause.
+Counted from the exported reports, they fall into two problems. The desk closed #4471 on 5 October with one
+outcome for each.
 
 <Callout>
-Not one issue. #4471 should not be marked known until each problem below has an owner.
+Not one issue: one fixed, one closed as won't fix. The kb page for #4471 still says known and one fix.
 </Callout>
 
 ## The two problems
@@ -28,16 +29,16 @@ Not one issue. #4471 should not be marked known until each problem below has an 
 <SplitTable ticket={4471} {issues} />
 
 **`parser`** ([ticket]({issues.parser})). The shared parser reads every date month first. Every tenant on file writes
-the day first, so their dates come out flipped. This is the bug the queued fix is for. It reaches people through the app,
+the day first, so their dates come out flipped. The desk's engineering update: **fixed**, by parsing day first for eu locales. It reached people through the app,
 by email, and through booking-v2 forms.
 
 **`hint`** ([ticket]({issues.hint})). Only booking-v3 forms, and only three tenants. The form prints `MM/DD/YYYY` under
-the date field. Their people type month first, as told, and the form reads it the tenant's way. The parser fix does not
-change this. The hint text or the form's reading has to change.
+the date field. Their people type month first, as told, and the form reads it the tenant's way. The parser fix did not
+change this. The desk's engineering update: **won't fix**, because the booking-v3 form is retired.
 
 The table counts the way the desk does: a report goes where its tenant files it. A few reports read as a one-day
 move. They stay under `parser`, footnoted under the table, and [the parser ticket]({issues.parser}) asks to check them
-when the fix lands. A time zone shift is the first thing to check: one report has the same meeting on two different days
+after the fix. A time zone shift is the first thing to check: one report has the same meeting on two different days
 in two cities.
 
 ## Why the merge hid it
@@ -49,9 +50,8 @@ Intake's own tag disagrees with the cause for a share of the reports, so it cann
 
 ## What to do
 
-- Mark #4471 as split. Keep it for `parser` only, because that is the bug the queued fix covers.
-- Move `hint` to its own ticket, linked in the table above.
+- Update the page for [#4471](/kb/incidents/4471): it is closed, with `parser` fixed and `hint` won't fix.
+- Check the reports read as a one-day move against the fix. A fix for day-first parsing does not change a time zone shift.
 - Write a new decision record that replaces 0001 for incidents. Do not edit 0001: it is accepted.
-- Until then, tell the three tenants on booking-v3 forms to type the day first.
 
 <RenderStamp {signature} />
